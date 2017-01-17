@@ -76,6 +76,8 @@ if os.path.exists(os.path.join(os.path.dirname(__file__),
     with open(os.path.join(os.path.dirname(__file__),
                            'requirements.txt')) as x:
         requirements = x.read().splitlines()
+else:
+    requirements = []
 
 with open(os.path.join(os.path.dirname(__file__), 'README.rst')) as x:
     readme = x.read()
