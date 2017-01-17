@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 # PyIPCalc
 #
 # Copyright (c) 2017, Christiaan Frans Rademan.
