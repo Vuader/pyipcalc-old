@@ -31,7 +31,6 @@
 #
 
 import os
-import subprocess
 
 try:
     from setuptools import setup
@@ -41,7 +40,7 @@ except Exception as e:
     exit()
 
 try:
-    import project
+    from . import project
 except Exception as e:
     raise Exception("Missing or Broken Configuration" +
                     " project.py file (%s)" % (e,))
