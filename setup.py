@@ -31,32 +31,44 @@
 #
 
 import os
-import subprocess
 
 try:
     from setuptools import setup
+    from setuptools import find_packages
 except Exception as e:
     print("Requires 'setuptools'")
     print(" pip install setuptools")
     exit()
 
-try:
-    import project
-except Exception as e:
-    raise Exception("Missing or Broken Configuration" +
-                    " project.py file (%s)" % (e,))
+config = {
+        "name": "pyipcalc",
+        "author": "Christiaan Frans Rademan",
+        "author_email": "christiaan.rademan@gmail.com",
+        "description": "Python IP Calculator Module",
+        "license": "BSD 3-Clause",
+        "include_package_data": True,
+        "keywords": "ip calculator",
+        "url": "http://pyipcalc.fwiw.co.za",
+        "packages": find_packages(),
+        "scripts": [
+            'ipcalc.py'
+            ],
+        "classifiers": [
+            "Topic :: Software Development :: Libraries",
+            "Environment :: Other Environment",
+            "Intended Audience :: Information Technology",
+            "Intended Audience :: System Administrators",
+            "Intended Audience :: Developers",
+            "License :: OSI Approved :: BSD License",
+            "Operating System :: POSIX :: Linux",
+            "Programming Language :: Python",
+            "Programming Language :: Python :: 2.7",
+            "Programming Language :: Python :: 3"
+            ]
+        }
 
 # allow setup.py to be run from any path
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
-
-if hasattr(project, 'config'):
-    if isinstance(project.config, dict):
-        config = project.config
-    else:
-        raise Exception("'project.config' object not" +
-                        " dictionary in project.py file.")
-else:
-    raise Exception("Missing config dictionary in project.py file.")
 
 with open(os.path.join(os.path.dirname(__file__), 'requirements.txt')) as x:
     requirements = x.read().splitlines()
