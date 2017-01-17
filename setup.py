@@ -47,6 +47,7 @@ config = {
         "description": "Python IP Calculator Module",
         "license": "BSD 3-Clause",
         "include_package_data": True,
+        "package_data": {'': ['requirements.txt']},
         "keywords": "ip calculator",
         "url": "http://pyipcalc.fwiw.co.za",
         "packages": find_packages(),
@@ -70,8 +71,11 @@ config = {
 # allow setup.py to be run from any path
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
-with open(os.path.join(os.path.dirname(__file__), 'requirements.txt')) as x:
-    requirements = x.read().splitlines()
+if os.path.exists(os.path.join(os.path.dirname(__file__),
+                               'requirements.txt')):
+    with open(os.path.join(os.path.dirname(__file__),
+                           'requirements.txt')) as x:
+        requirements = x.read().splitlines()
 
 with open(os.path.join(os.path.dirname(__file__), 'README.rst')) as x:
     readme = x.read()
