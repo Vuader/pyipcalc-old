@@ -6,6 +6,8 @@ Quick Links
 -----------
 
 * `Website <http://pyipcalc.fwiw.co.za>`__.
+* `GITHUB Code <https://github.com/vision1983/pyipcalc>`__.
+* `Issues <https://github.com/vision1983/pyipcalc/issues>`__.
 
 Installation
 ------------
