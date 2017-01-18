@@ -181,14 +181,7 @@ Finding the smallest common supernet that contains two subnets:
 	>>> pyipcalc.supernet(net1,net2)
 	192.168.0.0/23
 
-The .supernet() function also takes a third optional argument, which specifies
-the minimum prefix length to be searched. Consider for example the case where
-one searches for the common supernet of 128.0.0.1/32 and 10.0.0.1/32. Because
-the former has a 1 in the left most bit, while the latter has a 0, the only common
-supernet would be 0.0.0.0/0, which might not be the desirable outcome. For that
-reason, one could limit the search. If a common supernet is found within the
-search limits, it is returned, otherwise 'None' is returned. If this limit is not
-specified, the default for IPv4 is 8, and for IPv6 is 16
+The .supernet() function also takes a third optional argument, which specifies the minimum prefix length to be searched. Consider for example the case where one searches for the common supernet of 128.0.0.1/32 and 10.0.0.1/32. Because the former has a 1 in the left most bit, while the latter has a 0, the only common supernet would be 0.0.0.0/0, which might not be the desirable outcome. For that reason, one could limit the search. If a common supernet is found within the search limits, it is returned, otherwise 'None' is returned. If this limit is not specified, the default for IPv4 is 8, and for IPv6 is 16.
 
 .. code:: python
 
