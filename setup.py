@@ -41,32 +41,32 @@ except Exception as e:
     exit()
 
 config = {
-        "name": "pyipcalc",
-        "author": "Christiaan Frans Rademan",
-        "author_email": "christiaan.rademan@gmail.com",
-        "description": "Python IP Calculator Module",
-        "license": "BSD 3-Clause",
-        "include_package_data": True,
-        "package_data": {'': ['requirements.txt']},
-        "keywords": "ip calculator",
-        "url": "http://pyipcalc.fwiw.co.za",
-        "packages": find_packages(),
-        "scripts": [
-            'ipcalc.py'
-            ],
-        "classifiers": [
-            "Topic :: Software Development :: Libraries",
-            "Environment :: Other Environment",
-            "Intended Audience :: Information Technology",
-            "Intended Audience :: System Administrators",
-            "Intended Audience :: Developers",
-            "License :: OSI Approved :: BSD License",
-            "Operating System :: POSIX :: Linux",
-            "Programming Language :: Python",
-            "Programming Language :: Python :: 2.7",
-            "Programming Language :: Python :: 3"
-            ]
-        }
+    "name": "pyipcalc",
+    "author": "Christiaan Frans Rademan",
+    "author_email": "christiaan.rademan@gmail.com",
+    "description": "Python IP Calculator Module",
+    "license": "BSD 3-Clause",
+    "include_package_data": True,
+    "package_data": {'': ['requirements.txt']},
+    "keywords": "ip calculator",
+    "url": "http://pyipcalc.fwiw.co.za",
+    "packages": find_packages(),
+    "scripts": [
+        'ipcalc.py'
+        ],
+    "classifiers": [
+        "Topic :: Software Development :: Libraries",
+        "Environment :: Other Environment",
+        "Intended Audience :: Information Technology",
+        "Intended Audience :: System Administrators",
+        "Intended Audience :: Developers",
+        "License :: OSI Approved :: BSD License",
+        "Operating System :: POSIX :: Linux",
+        "Programming Language :: Python",
+        "Programming Language :: Python :: 2.7",
+        "Programming Language :: Python :: 3"
+        ]
+    }
 
 # allow setup.py to be run from any path
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
@@ -92,7 +92,7 @@ if os.path.isfile(version_py):
 else:
     version_git = '0.0.0'
 
-print "%s %s\n" % (config['name'], version_git)
+print("%s %s\n" % (config['name'], version_git))
 
 setup(
     install_requires=requirements,
