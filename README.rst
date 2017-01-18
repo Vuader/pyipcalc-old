@@ -1,5 +1,6 @@
 PyIPCalc
 ========
+
 Project Status: Development
 
 Quick Links
@@ -161,3 +162,45 @@ Typically you will need two 64bit columns in a database to store 128bit IPv6 add
 	>>> print pyipcalc.dec64to128(18446462598732840960L,0L)
 	340277174624079928635746076935438991360
 
+Checking wether one subnet contains another:
+
+.. code:: python
+
+	>>> net = pyipcalc.IPNetwork('192.168.0.0/24')
+	>>> net1 = pyipcalc.IPNetwork('192.168.0.1/32')
+	>>> net2 = pyipcalc.IPNetwork('192.168.1.0/24')
+	>>> net.contains(net1)
+	True
+	>>> net.contains(net2)
+	False
+
+Finding the smallest common supernet that contains two subnets:
+
+.. code:: python
+
+	>>> pyipcalc.supernet(net1,net2)
+	192.168.0.0/23
+
+The .supernet() function also takes a third optional argument, which specifies
+the minimum prefix length to be searched. Consider for example the case where
+one searches for the common supernet of 128.0.0.1/32 and 10.0.0.1/32. Because
+the former has a 1 in the left most bit, while the latter has a 0, the only common
+supernet would be 0.0.0.0/0, which might not be the desirable outcome. For that
+reason, one could limit the search. If a common supernet is found within the
+search limits, it is returned, otherwise 'None' is returned. If this limit is not
+specified, the default for IPv4 is 8, and for IPv6 is 16
+
+.. code:: python
+
+	>>> net3 = pyipcalc.IPNetwork('10.0.0.1/32')
+	>>> pyipcalc.supernet(net1,net3)
+	>>> pyipcalc.supernet(net1,net3,0)
+	0.0.0.0/0
+	>>> net4 = pyipcalc.IPNetwork('127.0.0.1/32')
+	>>> pyipcalc.supernet(net3,net4)
+	>>> pyipcalc.supernet(net3,net4,1)
+	0.0.0.0/1
+	>>> net5 = pyipcalc.IPNetwork('172.16.0.0/8')
+	>>> pyipcalc.supernet(net2,net5)
+	>>> pyipcalc.supernet(net2,net5,0)
+	128.0.0.0/1
