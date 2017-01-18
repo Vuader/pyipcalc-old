@@ -265,6 +265,42 @@ def validate_ip6(prefix):
 
     return prefix
 
+def isPow2(n):
+    return n and not (n & (n-1))
+
+def supernet(ipn1,ipn2,min_cidr=None):
+    for ip in (ipn1,ipn2):
+        if not type(ip) is IPNetwork:
+            raise IPPrefixError(ip)
+    if ipn1.contains(ipn2):
+	return ipn1
+    elif ipn2.contains(ipn1):
+	return ipn2
+    else:
+	if ipn1._version == 4:
+		bitlength = 32
+		min_cidr=min_cidr if isinstance(min_cidr,int) else 8
+	elif ipn1._version == 6:
+		bitlength = 128
+		min_cidr=min_cidr if isinstance(min_cidr,int) else 16
+	mask = (1 << ipn1._cidr) - 1
+	mask <<= bitlength - ipn1._cidr
+	pl = (1 << bitlength) - 1
+        d1 = ip2dec(ipn1.ip_network,ipn1._version)
+        d2 = ip2dec(ipn2.ip_network,ipn2._version)
+	min_cidr = ipn1._cidr - min_cidr
+	i = 0
+	d1net = d1 & mask
+	while d1net != d2 & mask and i < min_cidr:
+		i +=1
+		mask <<= 1
+		mask &= pl
+		d1net = d1 & mask
+	if d1net == d2 & mask:
+		cidr = ipn1._cidr - i
+		return IPNetwork(dec2ip(d1net,ipn1._version)+"/"+str(cidr))
+	else: #we did not find a common supernet within the search limits
+		return None
 
 class IPIter(object):
     def __init__(self, prefix, blocks=32):
@@ -419,3 +455,26 @@ class IPNetwork(object):
             return subnet(self._cidr)
         else:
             return None
+
+    def contains(self,ip):
+        if not type(ip) is IPNetwork:
+            raise IPPrefixError(ip)
+	else:
+	    dec_ip = ip2dec(ip.ip_network,ip._version)
+	if self._cidr == 32 or self._cidr == 128:
+	  if ip._cidr == 32 or ip._cidr == 128:
+	    if self.ip_network == ip.ip_network:
+		return True
+	    else:
+		return False
+	elif self._cidr == 31 or self._cidr == 127:
+	  if ip._cidr == 31 or ip._cidr == 127:
+	    if int(self.bin_last,2) - 1 == dec_ip:
+		return True
+	    else:
+		return False
+	else:
+	    if dec_ip >= int(self.bin_net,2) and dec_ip <= int(self.bin_bcast,2):
+		return True
+	    else:
+		return False
