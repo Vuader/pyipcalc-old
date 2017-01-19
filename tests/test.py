@@ -32,8 +32,6 @@
 import logging
 import unittest
 
-import nfw
-
 log = logging.getLogger(__name__)
 
 if __name__ == "__main__":

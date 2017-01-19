@@ -41,20 +41,27 @@ import pyipcalc
 
 app = "\033[1;32;40mPyIPCalc %s\033[0m" % (pyipcalc.version,)
 
+
 def main():
     parser = argparse.ArgumentParser(description=app)
     parser.add_argument('prefix', help='IPv4 / IPv6 in CIDR Notation')
     args = parser.parse_args()
     if args is not None:
         print("%s\n" % app)
-        ipn = pyipcalc.IPNetwork(args.prefix)
-        print("\t\033[1mNetwork Prefix: \033[0;33;40m%s\033[0m" % (ipn.prefix(),))
-        print("\t\033[1mNetwork Address: \033[0;33;40m%s\033[0m" % (ipn.network(),))
-        print("\t\033[1mFirst IP Address: \033[0;33;40m%s\033[0m" % (ipn.first(),))
-        print("\t\033[1mLast IP Address: \033[0;33;40m%s\033[0m" % (ipn.last(),))
-        print("\t\033[1mBroadcast Address: \033[0;33;40m%s\033[0m" % (ipn.broadcast(),))
-        print("\t\033[1mNetmask: \033[0;33;40m%s\033[0m" % (ipn.subnet(),))
-        print("")
+        try:
+            ipn = pyipcalc.IPNetwork(args.prefix)
+            print("\t\033[1mNetwork Prefix: \033[0;33;40m%s\033[0m" % (ipn.prefix(),))
+            print("\t\033[1mNetwork Address: \033[0;33;40m%s\033[0m" % (ipn.network(),))
+            print("\t\033[1mFirst IP Address: \033[0;33;40m%s\033[0m" % (ipn.first(),))
+            print("\t\033[1mLast IP Address: \033[0;33;40m%s\033[0m" % (ipn.last(),))
+            print("\t\033[1mBroadcast Address: \033[0;33;40m%s\033[0m" % (ipn.broadcast(),))
+            print("\t\033[1mNetmask: \033[0;33;40m%s\033[0m" % (ipn.subnet(),))
+            print("")
+        except pyipcalc.Error as e:
+            print("\t\033[1;31m%s\033[0m" % (e,))
+            print("")
+
+
 
 if __name__ == "__main__":
     main()

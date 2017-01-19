@@ -34,6 +34,7 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
+
 class Error(Exception):
     def __init__(self, description):
         Exception.__init__(self, description)
@@ -42,10 +43,11 @@ class Error(Exception):
     def __str__(self):
         return str(self.description)
 
+
 class IPPrefixError(Error):
     def __init__(self, prefix):
-        Error.__init__(self, prefix)
-        self.prefix = prefix
+        self.error = "Prefix Invalid '%s'" % (prefix,)
+        Error.__init__(self, self.error)
 
     def __str__(self):
-        return str(self.prefix)
+        return str(self.error)
