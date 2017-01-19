@@ -255,11 +255,11 @@ def validate_ip6(prefix):
 
     if '::' in prefix:
         ip_values = len(validate_prefix[0])
-        b,e = validate_prefix.split('::')
+        b, e = validate_prefix.split('::')
         ip_values = len(b.split(':')) + len(e.split(':'))
         diff = 8 - ip_values
         add = '0000:' * diff
-        prefix = "%s:%s%s/%s" % (b,add,e,mask)
+        prefix = "%s:%s%s/%s" % (b, add, e, mask)
         validate_prefix = prefix.split('/')[0]
         validate_prefix = validate_prefix.split(':')
     else:
@@ -312,6 +312,18 @@ def supernet(ipn1, ipn2, min_cidr=None):
             return IPNetwork(dec2ip(d1net, ipn1._version) + "/" + str(cidr))
         else:  # we did not find a common supernet within the search limits
             return None
+
+
+def cidr2decmask(cidr, version):
+    if version == 4:
+        left_shift = 32 - cidr
+    elif version == 6:
+        left_shift = 128 - cidr
+    else:
+        return None
+    mask = (1 << cidr) - 1
+    mask <<= left_shift
+    return mask
 
 
 class IPIter(object):
@@ -472,22 +484,9 @@ class IPNetwork(object):
         if not type(ip) is IPNetwork:
             raise IPPrefixError(ip)
         else:
+            mask = cidr2decmask(self._cidr, self._version)
             dec_ip = ip2dec(ip.ip_network, ip._version)
-        if self._cidr == 32 or self._cidr == 128:
-            if ip._cidr == 32 or ip._cidr == 128:
-                if self.ip_network == ip.ip_network:
-                    return True
-                else:
-                    return False
-        elif self._cidr == 31 or self._cidr == 127:
-            if ip._cidr == 31 or ip._cidr == 127:
-                if int(self.bin_last, 2) - 1 == dec_ip:
-                    return True
-                else:
-                    return False
-        else:
-            if (dec_ip >= int(self.bin_net, 2) and
-                    dec_ip <= int(self.bin_bcast, 2)):
+            if int(self.bin_net, 2) & mask == dec_ip & mask:
                 return True
             else:
                 return False

@@ -174,6 +174,8 @@ Checking wether one subnet contains another:
 	>>> net.contains(net2)
 	False
 
+Note that if net == net1, contains() will return True
+
 Finding the smallest common supernet that contains two subnets:
 
 .. code:: python
