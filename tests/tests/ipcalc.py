@@ -40,6 +40,8 @@ log = logging.getLogger(__name__)
 class IPCalc(unittest.TestCase):
     def test_ipv4_network(self):
         net = pyipcalc.IPNetwork('192.168.0.0/25')
+        net2 = pyipcalc.IPNetwork('192.168.0.1/30')
+        net3 = pyipcalc.IPNetwork('192.168.0.128/25')
         self.assertEqual('192.168.0.0/25', net.prefix())
         self.assertEqual('192.168.0.0', net.network())
         self.assertEqual('192.168.0.1', net.first())
@@ -49,6 +51,10 @@ class IPCalc(unittest.TestCase):
         self.assertEqual(3232235520, pyipcalc.ip2dec('192.168.0.0', 4))
         self.assertEqual('192.168.0.0', pyipcalc.dec2ip(3232235520, 4))
         self.assertEqual('255.255.255.128', net.subnet())
+        self.assertEqual(True, net.contains(net2))
+        self.assertEqual(False, net.contains(net3))
+        self.assertEqual('192.168.0.0/24', pyipcalc.supernet(net,
+                         net3).prefix())
 
     def test_ipv6_network(self):
         net = pyipcalc.IPNetwork('fff0::/64')
@@ -62,4 +68,3 @@ class IPCalc(unittest.TestCase):
         self.assertEqual('fff0:0000:0000:0000:ffff:ffff:ffff:ffff',
                          pyipcalc.dec2ip(340199290171201906239764863564210241535L,
                                         6))
-
